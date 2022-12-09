@@ -26,7 +26,9 @@ public class LightBoardApiController {
           List<LightBoard> lightBoardList = new ArrayList<LightBoard>();
           lightBoardList.add(lightBoard);
           for (int i = 0; i < generations; i++) {
-                lightBoard = lightBoard.simulateLife();
+                Light[][] lights = lightBoard.simulateLife();
+                LightBoard newlightBoard = new LightBoard(3,3);
+                newlightBoard.setLights(lights);
                 lightBoardList.add(lightBoard);
           }
           return new ResponseEntity<List<LightBoard>>(lightBoardList, HttpStatus.OK);
