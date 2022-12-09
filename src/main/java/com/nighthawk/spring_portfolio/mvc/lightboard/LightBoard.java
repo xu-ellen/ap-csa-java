@@ -124,7 +124,7 @@ public class LightBoard {
 
     /* Simulate Conways Game of Life */
 
-    public void simulateLife() {
+    public Light[][] simulateLife() {
         // 2D array nested loops, used for reference
         for (int row = 0; row < lights.length; row++) {
             for (int col = 0; col < lights[row].length; col++) {
@@ -159,6 +159,7 @@ public class LightBoard {
                 }
             }
         }
+        return lights;
     }
 
     // Display game of life with getOn as on/off
