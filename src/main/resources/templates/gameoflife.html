@@ -6,3 +6,42 @@
   <title>Lightboard game of life</title>
 </head>
 
+<body>
+<th:block layout:fragment="body" th:remove="tag">
+    <!-- Start of body content specific to page -->
+    <div class="px-4 py-5 my-5">
+        <h3 class="display-5 fw-bold">Lightboard game of life</h3>
+    </div>
+    <!-- End of body content specific to page -->
+    <input type="text" id="input"></input>
+    <button onclick="simulate(document.getElementById('input').value)">Simulate</button>
+    <div id="result">
+    </div>
+</th:block>
+</body>
+
+<th:block layout:fragment="script" th:remove="tag">
+<script>
+    function simulate(generation){
+      fetch("/api/lightboard/simulate/"+generation, {"method": "GET"})
+      // response is a RESTful "promise" on any successful fetch
+      .then(response => {
+      // check for response errors
+      if (response.status !== 200) {
+          error("GET API response failure: " + response.status)
+          return;  // api failure
+      }
+      // valid response will have JSON data
+      response.json().then(data => {
+        document.getElementById("result").innerText=data.result;
+      })
+      })
+      // catch fetch errors (ie Nginx ACCESS to server blocked)
+      .catch(err => {
+      error(err + " " );
+      });
+    }
+</script>
+</th:block>
+
+</html>
