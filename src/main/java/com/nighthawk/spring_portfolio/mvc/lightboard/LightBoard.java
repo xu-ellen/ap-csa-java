@@ -23,6 +23,11 @@ public class LightBoard {
         }
     }
 
+    /* Overload constructor to take in input Light[][] */
+    public LightBoard(Light[][] lights) {
+        this.lights = lights;
+    }
+
     /* Output is intended for API key/values */
     public String toString() { 
         String outString = "[";
@@ -209,8 +214,7 @@ public class LightBoard {
     }
 
     // next generation returns next generation of lights 
-    public LightBoard nextGeneration() {
-        LightBoard next = new LightBoard(lights.length, lights[0].length);
+    public Light[][] nextGeneration() {
         // 2D array nested loops, used for reference
         for (int row = 0; row < lights.length; row++) {
             for (int col = 0; col < lights[row].length; col++) {
@@ -236,16 +240,16 @@ public class LightBoard {
                  */
                 if (lights[row][col].getOn()) {
                     if (neighbors < 2 || neighbors > 3) {
-                        next.lights[row][col].setOn(false); // lambok method
+                        lights[row][col].setOn(false); // lambok method
                     }
                 } else {
                     if (neighbors == 3) {
-                        next.lights[row][col].setOn(true);
+                        lights[row][col].setOn(true);
                     }
                 }
             }
         }
-        return next;
+        return lights;
     }
     
     static public void main(String[] args) {
