@@ -20,17 +20,15 @@ public class LightBoardApiController {
     /*
     GET calculation
      */
-    @GetMapping("/simulate/{generations}")
-    public ResponseEntity<List<LightBoard>> getSimulation(@PathVariable("generations") int generations) {
-          LightBoard lightBoard = new LightBoard(3,3); // could be a parameter
-          List<LightBoard> lightBoardList = new ArrayList<LightBoard>();
-          lightBoardList.add(lightBoard);
-          for (int i = 0; i < generations; i++) {
-                Light[][] lights = lightBoard.simulateLife();
-                LightBoard newlightBoard = new LightBoard(3,3);
-                newlightBoard.setLights(lights);
-                lightBoardList.add(lightBoard);
-          }
-          return new ResponseEntity<List<LightBoard>>(lightBoardList, HttpStatus.OK);
+  @GetMapping("/simulate/{generations}")
+public ResponseEntity<List<LightBoard>> getSimulation(@PathVariable("generations") int generations) {
+    LightBoard lightBoard = new LightBoard(5,5); // could be a parameter
+    List<LightBoard> lightBoardList = new ArrayList<LightBoard>();
+    lightBoardList.add(lightBoard);
+    for (int i = 0; i < generations; i++) {
+        lightBoard = lightBoard.nextGeneration();
+        lightBoardList.add(lightBoard);
     }
+    return new ResponseEntity<List<LightBoard>>(lightBoardList, HttpStatus.OK);
+  }
 }

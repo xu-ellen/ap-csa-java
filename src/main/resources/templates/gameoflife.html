@@ -36,6 +36,8 @@
     response.json().then(data => {
 
       console.log(data);
+      //clear previous results
+      document.getElementById("result").innerHTML = "";
 
       // json output is an Array where each element is a Lightboard
       // each Lightboard has 3x3 array of Lights
@@ -45,6 +47,10 @@
         // create a table for each Lightboard
         var board = data[b];
         console.log(board);
+
+        // print generation number
+        var text = document.createTextNode("Generation " + (parseInt(b)));
+        document.getElementById("result").appendChild(text);
 
         var table = document.createElement("table");
         table.setAttribute("border", "1");
@@ -56,9 +62,10 @@
           for (var j = 0; j < board.lights[i].length; j++) {
             var cell = document.createElement("td");
             var cellText = document.createTextNode(board.lights[i][j].on);
-            // set color of cell based on rgb hex code
-            var rgb = board.lights[i][j].rgb;
-            cell.setAttribute("style", "background-color: " + rgb);
+            // set color of cell based on rgb hex code if light is on
+            if (board.lights[i][j].on) {
+              cell.setAttribute("style", "background-color: " + board.lights[i][j].rgb);
+            }
             cell.appendChild(cellText);
             row.appendChild(cell);
           }

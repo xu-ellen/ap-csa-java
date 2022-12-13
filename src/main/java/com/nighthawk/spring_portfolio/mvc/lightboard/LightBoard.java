@@ -207,6 +207,46 @@ public class LightBoard {
             System.out.println();
         }
     }
+
+    // next generation returns next generation of lights 
+    public LightBoard nextGeneration() {
+        LightBoard next = new LightBoard(lights.length, lights[0].length);
+        // 2D array nested loops, used for reference
+        for (int row = 0; row < lights.length; row++) {
+            for (int col = 0; col < lights[row].length; col++) {
+                // count neighbors
+                int neighbors = 0;
+                // check each neighbor
+                for (int i = -1; i <= 1; i++) {
+                    for (int j = -1; j <= 1; j++) {
+                        // skip self
+                        if (i == 0 && j == 0) continue;
+                        // check if neighbor is alive
+                        if (lights[(row + i + lights.length) % lights.length][(col + j + lights[row].length) % lights[row].length].getOn()) {
+                            neighbors++;
+                        }
+                    }
+                }
+                // apply rules
+                /*
+                * Any live cell with two or three live neighbours survives.
+                Any dead cell with three live neighbours becomes a live cell.
+                All other live cells die in the next generation. Similarly, all other dead cells stay dead.
+                 * 
+                 */
+                if (lights[row][col].getOn()) {
+                    if (neighbors < 2 || neighbors > 3) {
+                        next.lights[row][col].setOn(false); // lambok method
+                    }
+                } else {
+                    if (neighbors == 3) {
+                        next.lights[row][col].setOn(true);
+                    }
+                }
+            }
+        }
+        return next;
+    }
     
     static public void main(String[] args) {
 
